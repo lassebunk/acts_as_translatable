@@ -15,7 +15,9 @@ And run <code>bundle install</code>.
 Generate translations for a category model with name and description fields, with default locale set to 'en' (English).
 
   $ rails generate acts_as_translatable en category name description
-  
+
+This will create the necessary migration and add <code>acts_as_taggable_on :name, :description</code> to the Category model.
+
 Play around with I18n:
   
   I18n.locale = "en"
