@@ -18,7 +18,7 @@ Generate translations for a category model with name and description fields, wit
 
 This will create the necessary migration and add <code>acts_as_taggable_on :name, :description</code> to the Category model.
 
-Play around with I18n:
+Then play around with I18n:
   
   I18n.locale = "en"
   Category.first.update_attribute :name, "English name"
