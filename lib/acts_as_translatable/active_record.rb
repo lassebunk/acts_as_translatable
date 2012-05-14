@@ -2,8 +2,6 @@ require 'acts_as_translatable/instance_methods'
 
 class ActiveRecord::Base
   def self.acts_as_translatable_on(*fields)
-    include ActsAsTranslatable::InstanceMethods
-    
     fields.each do |field|
       eval "class ::#{name}
               after_save :save_translations
