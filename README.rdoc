@@ -31,5 +31,6 @@ Have fun! Please send comments and suggestions to lassebunk@gmail.com, and issue
 == Todos
 
 * Support class namespaces
+* Destroy record translations when destroying translated record
 
 Copyright (c) 2012 Lasse Bunk, released under the MIT license
