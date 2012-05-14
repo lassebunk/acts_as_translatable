@@ -28,4 +28,8 @@ Then play around with I18n:
   
 Have fun! Please send comments and suggestions to lassebunk@gmail.com, and issues here at GitHub, please :)
 
+== Todos
+
+* Support class namespaces
+
 Copyright (c) 2012 Lasse Bunk, released under the MIT license
