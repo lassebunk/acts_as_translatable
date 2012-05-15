@@ -1,5 +1,4 @@
-acts_as_translatable is a Ruby on Rails plugin for easy translation of database fields.
-
+acts_as_translatable is a Ruby on Rails plugin for easy translation of models and database tables.
 
 == Installation
 
