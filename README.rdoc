@@ -15,7 +15,9 @@ Generate translations for a category model with name and description fields, wit
 
   $ rails generate acts_as_translatable en category name description
 
-This will create the necessary migration.
+This will create the necessary migration. Then run:
+
+  $ rake db:migrate
 
 Then add to <code>app/models/category.rb</code>:
   
