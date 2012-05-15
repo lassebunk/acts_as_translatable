@@ -35,7 +35,7 @@ class ActiveRecord::Base
       eval "class ::#{name}
               def #{field}
                 translations[I18n.locale] ||= {}
-                translations[I18n.locale][\"#{field}\"] || \"\"
+                translations[I18n.locale][\"#{field}\"]
               end
 
               def #{field}?
