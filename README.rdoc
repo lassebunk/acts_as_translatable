@@ -12,7 +12,7 @@ And run <code>bundle install</code>.
 
 == Example
 
-Generate translations for a category model with name and description fields, with default locale set to 'en' (English).
+Generate translations for a category model with name and description fields, with default locale set to 'en' (English):
 
   $ rails generate acts_as_translatable en category name description
 
