@@ -16,9 +16,16 @@ Generate translations for a category model with name and description fields, wit
 
   $ rails generate acts_as_translatable en category name description
 
-This will create the necessary migration and add <code>acts_as_taggable_on :name, :description</code> to the Category model.
+This will create the necessary migration.
 
-Then play around with I18n:
+Then add to <code>app/models/category.rb</code>:
+  
+  class Category < ActiveRecord::Base
+    acts_as_taggable_on :name, :description
+    ...
+  end
+
+And play around with I18n:
   
   I18n.locale = "en"
   Category.first.update_attribute :name, "English name"
