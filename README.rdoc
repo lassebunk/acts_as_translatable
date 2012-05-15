@@ -21,7 +21,7 @@ This will create the necessary migration.
 Then add to <code>app/models/category.rb</code>:
   
   class Category < ActiveRecord::Base
-    acts_as_taggable_on :name, :description
+    acts_as_translatable_on :name, :description
     ...
   end
 
