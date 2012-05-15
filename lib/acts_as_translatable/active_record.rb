@@ -38,6 +38,10 @@ class ActiveRecord::Base
                 translations[I18n.locale][\"#{field}\"] || \"\"
               end
 
+              def #{field}?
+                !#{field}.blank?
+              end
+
               def #{field}=(value)
                 translations[I18n.locale] ||= {}
                 translations[I18n.locale][\"#{field}\"] = value
