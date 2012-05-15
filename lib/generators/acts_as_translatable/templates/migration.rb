@@ -24,21 +24,9 @@ class <%= migration_class_name %> < ActiveRecord::Migration
     # delete translated columns<% columns.each do |column| %>
     remove_column :<%= translatable_table %>, :<%= column %>
     <% end %>
-
-    # insert acts_as_translatable_on in model
-    model_file_path = "app/models/<%= model_name %>.rb"
-    old_contents = File.open(model_file_path).read
-    new_contents = old_contents.gsub("class <%= translatable_class %> < ActiveRecord::Base\n", "class <%= translatable_class %> < ActiveRecord::Base\n  acts_as_translatable_on <%= columns.map { |c| ":#{c}" }.join(", ") %>\n\n")
-    File.open(model_file_path, 'w') { |f| f.write new_contents }
   end
   
   def self.down
-    # remove acts_as_translatable_on from model
-    model_file_path = "app/models/<%= model_name %>.rb"
-    old_contents = File.open(model_file_path).read
-    new_contents = old_contents.gsub("  acts_as_translatable_on <%= columns.map { |c| ":#{c}" }.join(", ") %>\n", "")
-    File.open(model_file_path, 'w') { |f| f.write new_contents }
-
     # re-add deleted columns
     # TODO: make sure that re-added columns are the same type as the original, if possible<% columns.each do |column| %>
     add_column :<%= translatable_table %>, :<%= column %>, :text
