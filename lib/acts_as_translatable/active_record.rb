@@ -6,7 +6,7 @@ class ActiveRecord::Base
               
               def #{field}
                 translations[I18n.locale] ||= {}
-                translations[I18n.locale][\"#{field}\"]
+                translations[I18n.locale][\"#{field}\"] || nil
               end
 
               def #{field}=(value)
