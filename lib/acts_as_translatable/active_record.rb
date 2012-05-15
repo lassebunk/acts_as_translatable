@@ -2,6 +2,7 @@ class ActiveRecord::Base
   def self.acts_as_translatable_on(*fields)
     eval "class ::#{name}
             after_save :save_translations
+            after_destroy :destroy_record_translations
             
             def translations
               unless @translations
@@ -19,9 +20,9 @@ class ActiveRecord::Base
             end
           
             def save_translations
-              # delete all previous record translations
-              record_translations.destroy_all
-
+              # delete all previous translations of this record
+              destroy_record_translations
+              
               # loop through updated translations
               translations.each_pair do |locale, fields|
                 fields.each_pair do |field, content|
@@ -29,6 +30,11 @@ class ActiveRecord::Base
                   RecordTranslation.create :translatable_id => id, :translatable_type => self.class.name, :translatable_field => field, :locale => locale.to_s, :content => content unless content.blank?
                 end
               end
+            end
+            
+            def destroy_record_translations
+              # delete all translations of this record
+              record_translations.destroy_all
             end
           end"  
     fields.each do |field|
