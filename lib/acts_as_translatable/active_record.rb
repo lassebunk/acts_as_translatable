@@ -40,8 +40,23 @@ class ActiveRecord::Base
     fields.each do |field|
       eval "class ::#{name}
               def #{field}
-                translations[I18n.locale] ||= {}
-                translations[I18n.locale][\"#{field}\"]
+                # get I18n fallbacks
+                if I18n.respond_to?(:fallbacks)
+                  locales = I18n.fallbacks[I18n.locale]
+                else
+                  locales = [I18n.locale]
+                end
+                
+                # fallbacks
+                locales.each do |locale|
+                  if fields = translations[locale]
+                    content = fields[\"#{field}\"]
+                    return content if content
+                  end
+                end
+                
+                # none found
+                return nil
               end
 
               def #{field}?
