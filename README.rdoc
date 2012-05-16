@@ -34,6 +34,12 @@ And play around with I18n:
   I18n.locale = "de"
   Category.first.update_attribute :name, "Deutsche Name"
   
+  puts Category.first.name
+  puts Category.first.name_en
+  puts Category.first.name_es
+
+And it supports <code>I18n.fallbacks</code>.
+  
 Have fun! Please send comments and suggestions to lassebunk@gmail.com, and issues here at GitHub, please :)
 
 == Todo's

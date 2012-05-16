@@ -7,9 +7,12 @@ class ActiveRecord::Base
             def translations
               unless @translations
                 @translations = {}
+                I18n.available_locales.each do |locale|
+                  @translations[locale] ||= {}
+                end
                 record_translations.each do |translation|
                   @translations[translation.locale.to_sym] ||= {}
-                  @translations[translation.locale.to_sym][translation.translatable_field] = translation.content
+                  @translations[translation.locale.to_sym][translation.translatable_field.to_sym] = translation.content
                 end
               end
               @translations
@@ -36,36 +39,57 @@ class ActiveRecord::Base
               # delete all translations of this record
               record_translations.destroy_all
             end
-          end"  
+          end"
+    
+    localized_fields = ""
+    I18n.available_locales.each do |locale|
+      fields.each do |field|
+        localized_fields << "def #{field}_#{locale}
+                               get_field_content(\"#{locale}\".to_sym, \"#{field}\".to_sym)
+                             end
+                             def #{field}_#{locale}=(content)
+                               set_field_content(\"#{locale}\".to_sym, \"#{field}\".to_sym, content)
+                             end
+                             "
+      end
+    end
+    
     fields.each do |field|
       eval "class ::#{name}
               def #{field}
-                # get I18n fallbacks
-                if I18n.respond_to?(:fallbacks)
-                  locales = I18n.fallbacks[I18n.locale]
-                else
-                  locales = [I18n.locale]
-                end
-                
-                # fallbacks
-                locales.each do |locale|
-                  if fields = translations[locale]
-                    content = fields[\"#{field}\"]
-                    return content if content
-                  end
-                end
-                
-                # none found
-                return nil
+                get_field_content(I18n.locale, \"#{field}\")
               end
 
               def #{field}?
                 !#{field}.blank?
               end
 
-              def #{field}=(value)
-                translations[I18n.locale] ||= {}
-                translations[I18n.locale][\"#{field}\"] = value
+              def #{field}=(content)
+                set_field_content(I18n.locale, \"#{field}\", content)
+              end
+              
+              #{localized_fields}
+              
+              def get_field_content(locale, field)
+                # get I18n fallbacks
+                if I18n.respond_to?(:fallbacks)
+                  locales = I18n.fallbacks[locale.to_sym]
+                else
+                  locales = [locale.to_sym]
+                end
+                
+                # fallbacks
+                locales.each do |l|
+                  content = translations[l][field.to_sym]
+                  return content if content
+                end
+                
+                # none found
+                return nil
+              end
+              
+              def set_field_content(locale, field, content)
+                translations[locale.to_sym][field.to_sym] = content
               end
             end"  
     end
