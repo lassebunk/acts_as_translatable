@@ -1,27 +1,26 @@
 class ActiveRecord::Base
   def self.acts_as_translatable_on(*fields)
     eval "class ::#{name}
-            after_initialize :load_translations
+            after_initialize :translations
             after_save :save_translations
             after_destroy :destroy_record_translations
             
             def translations
-              @translations ||= load_translations
+              unless @translations
+                @translations = {}
+                I18n.available_locales.each do |locale|
+                  @translations[locale] ||= {}
+                end
+                record_translations.each do |translation|
+                  @translations[translation.locale.to_sym] ||= {}
+                  @translations[translation.locale.to_sym][translation.translatable_field.to_sym] = translation.content
+                end
+              end
+              @translations
             end
 
             def record_translations
               @record_translations ||= RecordTranslation.where(:translatable_id => id, :translatable_type => self.class.name)
-            end
-            
-            def load_translations
-              translations = {}
-              I18n.available_locales.each do |locale|
-                translations[locale] ||= {}
-              end
-              record_translations.each do |translation|
-                translations[translation.locale.to_sym] ||= {}
-                translations[translation.locale.to_sym][translation.translatable_field.to_sym] = translation.content
-              end
             end
           
             def save_translations
