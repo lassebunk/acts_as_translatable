@@ -1,9 +1,15 @@
 class ActiveRecord::Base
   def self.acts_as_translatable_on(*fields)
+    field_symbols = fields.map { |f| ":#{f}" }.join(", ")
+    
     eval "class ::#{name}
             after_initialize :translations
             after_save :save_translations
             after_destroy :destroy_record_translations
+            
+            def self.translatable_fields
+              [#{field_symbols}]
+            end
             
             def translations
               unless @translations
@@ -57,6 +63,17 @@ class ActiveRecord::Base
     
     fields.each do |field|
       eval "class ::#{name}
+              def self.enable_locale_fallbacks
+                if @enable_locale_fallbacks_set
+                  @enable_locale_fallbacks = true
+                end
+                @enable_locale_fallbacks
+              end
+              
+              def self.enable_locale_fallbacks=(value)
+                @enable_locale_fallbacks = value
+              end
+            
               def #{field}
                 get_field_content(I18n.locale, \"#{field}\")
               end
@@ -73,7 +90,7 @@ class ActiveRecord::Base
               
               def get_field_content(locale, field)
                 # get I18n fallbacks
-                if I18n.respond_to?(:fallbacks)
+                if self.class.enable_locale_fallbacks && I18n.respond_to?(:fallbacks)
                   locales = I18n.fallbacks[locale.to_sym]
                 else
                   locales = [locale.to_sym]
