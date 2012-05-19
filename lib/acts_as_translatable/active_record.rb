@@ -1,4 +1,4 @@
-# TODO: I would like to have help refactoring and improving these methods so that the methods are defined in a more decent way. Please help!
+# PLEASE HELP: I need help refactoring and improving these methods so that the methods are defined in a more decent way.
 
 class ActiveRecord::Base
   def self.acts_as_translatable_on(*fields)
