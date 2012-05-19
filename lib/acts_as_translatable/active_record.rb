@@ -1,3 +1,5 @@
+# TODO: I would like to have help refactoring and improving these methods so that the methods are defined in a more decent way. Please help!
+
 class ActiveRecord::Base
   def self.acts_as_translatable_on(*fields)
     field_symbols = fields.map { |f| ":#{f}" }.join(", ")
