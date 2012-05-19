@@ -64,7 +64,7 @@ class ActiveRecord::Base
     fields.each do |field|
       eval "class ::#{name}
               def self.enable_locale_fallbacks
-                if !@enable_locale_fallbacks_set
+                unless @enable_locale_fallbacks_set
                   @enable_locale_fallbacks = true
                   @enable_locale_fallbacks_set = true
                 end
