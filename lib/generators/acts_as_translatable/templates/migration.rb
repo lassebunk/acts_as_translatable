@@ -41,8 +41,5 @@ class <%= migration_class_name %> < ActiveRecord::Migration
         record.update_attribute :<%= column %>, content
       end
     <% end %>end
-    
-    # drop translations table
-    drop_table :record_translations
   end
 end
