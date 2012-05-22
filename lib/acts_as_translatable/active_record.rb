@@ -8,6 +8,7 @@ class ActiveRecord::Base
             after_initialize :translations
             after_save :save_translations
             after_destroy :destroy_record_translations
+            has_many :record_translations, :foreign_key => :translatable_id, :conditions => { :translatable_type => '#{name}'}
             
             def self.translatable_fields
               [#{field_symbols}]
@@ -27,10 +28,6 @@ class ActiveRecord::Base
               @translations
             end
 
-            def record_translations
-              @record_translations ||= RecordTranslation.where(:translatable_id => id, :translatable_type => self.class.name)
-            end
-          
             def save_translations
               # delete all previous translations of this record
               destroy_record_translations
@@ -39,7 +36,7 @@ class ActiveRecord::Base
               translations.each_pair do |locale, fields|
                 fields.each_pair do |field, content|
                   # create translation record
-                  RecordTranslation.create :translatable_id => id, :translatable_type => self.class.name, :translatable_field => field, :locale => locale.to_s, :content => content unless content.blank?
+                  record_translations.create :translatable_field => field, :locale => locale.to_s, :content => content unless content.blank?
                 end
               end
             end
