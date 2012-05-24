@@ -9,6 +9,7 @@ class ActiveRecord::Base
             after_save :save_translations
             after_destroy :destroy_record_translations
             has_many :record_translations, :foreign_key => :translatable_id, :conditions => { :translatable_type => '#{name}'}
+            default_scope :include => :record_translation
             
             def self.translatable_fields
               [#{field_symbols}]
