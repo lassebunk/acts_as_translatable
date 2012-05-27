@@ -10,10 +10,6 @@ class ActsAsTranslatableGenerator < Rails::Generators::NamedBase
 
   source_root File.expand_path('../templates', __FILE__)
   
-  def create_model
-    template "model.rb", "app/models/record_translation.rb"
-  end
-
   def create_migrations
     migration_template "migration.rb", "db/migrate/#{migration_name}.rb"
   end
