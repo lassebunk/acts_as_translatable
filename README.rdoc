@@ -49,6 +49,6 @@ I need help refactoring and improving the methods in active_record.rb so that th
 
 == Todo's
 
-* Cache translations on application level so they won't be loaded for each translated record
+* Cache translations on application level using <code>Rails.cache</code> so they won't be loaded for each translated record
 
 Copyright (c) 2012 Lasse Bunk, released under the MIT license
