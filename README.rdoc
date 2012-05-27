@@ -50,7 +50,7 @@ I need help refactoring and improving the methods in active_record.rb so that th
 == Todo's
 
 * Support class namespaces
-* I need help refactoring and improving the methods in active_record.rb so that the methods are defined in a more decent way. Please help!
+* I need help refactoring and improving the methods in active_record.rb so that the methods are defined in a more decent way, e.g. defining them using <code>define_method</code>. Please help!
 * Cache translations on application level so they won't be loaded for each translated record
 
 Copyright (c) 2012 Lasse Bunk, released under the MIT license
