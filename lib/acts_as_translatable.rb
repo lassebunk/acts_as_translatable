@@ -1,1 +1,2 @@
-require "acts_as_translatable/active_record"
+require "acts_as_translatable/class_methods"
+ActiveRecord::Base.extend ActsAsTranslatable::ClassMethods
