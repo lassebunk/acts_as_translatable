@@ -34,9 +34,9 @@ And play around with I18n:
   I18n.locale = "de"
   Category.first.update_attribute :name, "Deutsche Name"
   
-  puts Category.first.name
-  puts Category.first.name_en
-  puts Category.first.name_es
+  puts Category.first.name     # => "English name"
+  puts Category.first.name_en  # => "Deutsche Name"
+  puts Category.first.name_es  # => nil
 
 And it supports I18n fallbacks.
 
