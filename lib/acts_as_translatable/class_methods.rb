@@ -5,9 +5,13 @@ module ActsAsTranslatable
       after_save :save_translations
       has_many :record_translations, :foreign_key => :translatable_id, :conditions => { :translatable_type => name}, :dependent => :destroy
       default_scope :include => :record_translations
-    
-      # loop through fields to define methods such as "name" and "description"
+      
+      # loop through fields to define methods such as "name", "description", and "find_by_name"
       fields.each do |field|
+        self.class.send :define_method, "find_by_#{field}" do |content| 
+          where(["record_translations.locale = ? AND record_translations.content = ?", I18n.locale, content])
+        end
+        
         define_method "#{field}" do
           get_field_content(I18n.locale, field)
         end
@@ -20,8 +24,12 @@ module ActsAsTranslatable
           set_field_content(I18n.locale, field, content)
         end
         
-        # loop through fields to define methods such as "name_en" and "name_es"
+        # loop through fields to define methods such as "name_en", "name_es", and "find_by_name_en"
         I18n.available_locales.each do |locale|
+          self.class.send :define_method, "find_by_#{field}_#{locale}" do |content| 
+            where(["record_translations.locale = ? AND record_translations.content = ?", locale, content])
+          end
+          
           define_method "#{field}_#{locale}" do
             get_field_content(locale, field)
           end
