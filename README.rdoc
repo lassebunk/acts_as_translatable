@@ -49,6 +49,8 @@ Have fun! Please send comments and suggestions to lassebunk@gmail.com, and issue
 
 == Todo's
 
+* Add finder methods such as <code>find_by_name</code> and <code>find_by_name_en</code>.
+
 * Cache translations on application level using <code>Rails.cache</code> so they won't be loaded for each translated record?
 
 Copyright (c) 2012 Lasse Bunk, released under the MIT license
