@@ -37,6 +37,9 @@ And play around with I18n:
   puts Category.first.name     # => "English name"
   puts Category.first.name_en  # => "Deutsche Name"
   puts Category.first.name_es  # => nil
+  
+  Category.find_by_name("Programming")
+  Category.find_by_name_de("Programmierung")
 
 And it supports I18n fallbacks.
 
@@ -46,7 +49,6 @@ Have fun! Please send comments and suggestions to lassebunk@gmail.com, and issue
 
 == Todo's
 
-* Implement finder methods like <code>Model.find_by_name</code> and <code>Model.find_by_name_and_description</code>
 * Cache translations on application level using <code>Rails.cache</code> so they won't be loaded for each translated record?
 
 Copyright (c) 2012 Lasse Bunk, released under the MIT license
