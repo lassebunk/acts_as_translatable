@@ -6,7 +6,7 @@ module ActsAsTranslatable
       has_many :record_translations, :foreign_key => :translatable_id, :conditions => { :translatable_type => name}, :dependent => :destroy
       default_scope :include => :record_translations
       
-      # loop through fields to define methods such as "name", "description", and "find_by_name"
+      # loop through fields to define methods such as "name", "description"
       fields.each do |field|
         define_method "#{field}" do
           get_field_content(I18n.locale, field)
@@ -20,7 +20,7 @@ module ActsAsTranslatable
           set_field_content(I18n.locale, field, content)
         end
         
-        # loop through fields to define methods such as "name_en", "name_es", and "find_by_name_en"
+        # loop through fields to define methods such as "name_en", "name_es"
         I18n.available_locales.each do |locale|
           define_method "#{field}_#{locale}" do
             get_field_content(locale, field)
